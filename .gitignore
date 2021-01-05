@@ -1,0 +1,5 @@
+# GODOT default files to ignore
+.import/
+*.translation
+export_presets.cfg
+.mono/
