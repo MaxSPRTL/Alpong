@@ -1,9 +1,8 @@
 using Godot;
-using System;
 
-public class Player : Area2D
+public class Player : KinematicBody2D
 {
-    private int _speed = 200;
+    private int _speed = 150;
     private Vector2 _screenSize;
     private float _spriteWidth;
     private float _spriteHeight;
@@ -14,10 +13,14 @@ public class Player : Area2D
         SetSpriteDimensions();
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         Vector2 playerMovementVector = GetPlayerMovementVector();
-        MovePlayer(playerMovementVector, delta);
+        KinematicCollision2D collisionInfo = MoveAndCollide(playerMovementVector * delta);
+        if (collisionInfo != null)
+        {
+            var collisionPoint = collisionInfo.Position;
+        }
     }
 
     public void SetSpriteDimensions()
@@ -58,5 +61,10 @@ public class Player : Area2D
             x: Mathf.Clamp(Position.x, _spriteWidth, _screenSize.x - _spriteWidth),
             y: Mathf.Clamp(Position.y, 0, _screenSize.y)
         );
+    }
+
+    public void OnAreaEntered(Area2D area)
+    {
+        GD.Print("Hello from Player.cs");
     }
 }
