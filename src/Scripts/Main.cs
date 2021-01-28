@@ -14,6 +14,8 @@ namespace Scripts
         {
             this.AddPaddle(Factories.Paddle.GetHorizontalPaddle(), Constants.Paddle.Position.Top.Value);
             this.AddPaddle(Factories.Paddle.GetHorizontalPaddle(), Constants.Paddle.Position.Bottom.Value);
+            this.AddPaddle(Factories.Paddle.GetVerticalPaddle(), Constants.Paddle.Position.Left.Value);
+            this.AddPaddle(Factories.Paddle.GetVerticalPaddle(), Constants.Paddle.Position.Right.Value);
         }
 
         private void AddPaddle(KinematicBody2D paddleInstance, Vector2 paddlePosition)

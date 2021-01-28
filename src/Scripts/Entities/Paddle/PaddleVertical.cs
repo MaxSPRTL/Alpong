@@ -4,6 +4,11 @@ namespace Scripts.Entities.Paddle
 {
     public class PaddleVertical : Paddle
     {
+        public override void _Ready()
+        {
+            _rotation = 90;
+            base._Ready();
+        }
         public override Vector2 GetMovement()
         {
             Vector2 velocity = new Vector2();

@@ -5,7 +5,7 @@ namespace Scripts.Entities.Paddle
     public abstract class Paddle : KinematicBody2D
     {
         protected int _speed = 150;
-        private float _rotation = 0;
+        protected float _rotation = 0;
 
         public override void _Ready()
         {
