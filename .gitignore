@@ -3,3 +3,6 @@
 *.translation
 export_presets.cfg
 .mono/
+
+# mono log files
+mono_crash.*
