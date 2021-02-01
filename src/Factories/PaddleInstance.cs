@@ -2,7 +2,7 @@ using Godot;
 
 namespace Factories
 {
-    public class Paddle
+    public class PaddleInstance
     {
         private static PackedScene _paddleScene = null;
 
@@ -15,13 +15,13 @@ namespace Factories
             return _paddleScene;
         }
 
-        public static KinematicBody2D GetHorizontalPaddle()
+        public static KinematicBody2D GetHorizontal()
         {
             string scriptName = Constants.Scripts.Paddle.PaddleHorizontal.Value;
             return GetInstance(scriptName);
         }
 
-        public static KinematicBody2D GetVerticalPaddle()
+        public static KinematicBody2D GetVertical()
         {
             string scriptName = Constants.Scripts.Paddle.PaddleVertical.Value;
             return GetInstance(scriptName);

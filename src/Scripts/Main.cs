@@ -1,4 +1,5 @@
 using Godot;
+using Services;
 
 namespace Scripts
 {
@@ -12,16 +13,7 @@ namespace Scripts
 
         private void InitPaddles()
         {
-            this.AddPaddle(Factories.Paddle.GetHorizontalPaddle(), Constants.Paddle.Position.Top.Value);
-            this.AddPaddle(Factories.Paddle.GetHorizontalPaddle(), Constants.Paddle.Position.Bottom.Value);
-            this.AddPaddle(Factories.Paddle.GetVerticalPaddle(), Constants.Paddle.Position.Left.Value);
-            this.AddPaddle(Factories.Paddle.GetVerticalPaddle(), Constants.Paddle.Position.Right.Value);
-        }
-
-        private void AddPaddle(KinematicBody2D paddleInstance, Vector2 paddlePosition)
-        {
-            paddleInstance.Position = paddlePosition;
-            AddChild(paddleInstance);
+            AddChild(PaddleService.GetRandomNodePaddle());
         }
     }
 }
