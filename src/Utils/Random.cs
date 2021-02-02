@@ -4,8 +4,11 @@ namespace Utils
 {
     public sealed class Rand
     {
-        private readonly static Random _random = new Random();
+        public readonly static Random _random = new Random();
 
-        public static Random GetRandom() { return _random; }
+        public static float RandRange(float min, float max)
+        {
+            return (float)_random.NextDouble() * (max - min) + min;
+        }
     }
 }

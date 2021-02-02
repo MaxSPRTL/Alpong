@@ -1,41 +1,42 @@
-using Godot;
 using System;
 using Constants.Paddle;
+using Factories;
+using Scripts.Entities;
 
 namespace Services
 {
     public static class PaddleService
     {
 
-        public static KinematicBody2D GetRandomNodePaddle()
+        public static Paddle GetRandomNodePaddle()
         {
-            PositionName paddlePosition = (PositionName)Utils.Rand.GetRandom().Next(Enum.GetValues(typeof(PositionName)).Length);
+            PositionName paddlePosition = (PositionName)Utils.Rand._random.Next(Enum.GetValues(typeof(PositionName)).Length);
             return GetNodePaddle(paddlePosition);
         }
 
-        public static KinematicBody2D GetNodePaddle(PositionName position = PositionName.BOTTOM)
+        public static Paddle GetNodePaddle(PositionName position = PositionName.BOTTOM)
         {
             switch (position)
             {
                 case PositionName.TOP:
-                    KinematicBody2D paddleTop = Factories.PaddleInstance.GetHorizontal();
-                    paddleTop.Position = PositionVector.Top.Vector;
+                    PaddleHorizontal paddleTop = new PaddleHorizontalFactory().GetInstance();
+                    paddleTop.Position = PositionVector.Top;
                     return paddleTop;
 
                 case PositionName.LEFT:
-                    KinematicBody2D paddleLeft = Factories.PaddleInstance.GetVertical();
-                    paddleLeft.Position = PositionVector.Left.Vector;
+                    PaddleVertical paddleLeft = new PaddleVerticalFactory().GetInstance();
+                    paddleLeft.Position = PositionVector.Left;
                     return paddleLeft;
 
                 case PositionName.RIGHT:
-                    KinematicBody2D paddleRight = Factories.PaddleInstance.GetVertical();
-                    paddleRight.Position = PositionVector.Right.Vector;
+                    PaddleVertical paddleRight = new PaddleVerticalFactory().GetInstance();
+                    paddleRight.Position = PositionVector.Right;
                     return paddleRight;
 
                 default:
                 case PositionName.BOTTOM:
-                    KinematicBody2D paddleBottom = Factories.PaddleInstance.GetHorizontal();
-                    paddleBottom.Position = PositionVector.Bottom.Vector;
+                    PaddleHorizontal paddleBottom = new PaddleHorizontalFactory().GetInstance();
+                    paddleBottom.Position = PositionVector.Bottom;
                     return paddleBottom;
             }
         }

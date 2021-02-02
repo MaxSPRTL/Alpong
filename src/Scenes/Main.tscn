@@ -66,3 +66,5 @@ rotation = 3.14159
 [node name="PylonLB" parent="." instance=ExtResource( 3 )]
 position = Vector2( 104, 232 )
 rotation = -1.5708
+
+[node name="BallTimer" type="Timer" parent="."]

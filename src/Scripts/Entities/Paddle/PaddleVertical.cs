@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Scripts.Entities.Paddle
+namespace Scripts.Entities
 {
     public class PaddleVertical : Paddle
     {
