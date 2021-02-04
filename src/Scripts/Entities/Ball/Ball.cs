@@ -30,5 +30,10 @@ namespace Scripts.Entities
 
             _velocity = _velocity.Bounce(collision.Normal);
         }
+
+        public void OnVisibilityNotifier2DScreenExited()
+        {
+            QueueFree();
+        }
     }
 }

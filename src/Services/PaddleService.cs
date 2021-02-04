@@ -1,5 +1,4 @@
 using System;
-using Constants.Paddle;
 using Factories;
 using Scripts.Entities;
 
@@ -10,33 +9,33 @@ namespace Services
 
         public static Paddle GetRandomNodePaddle()
         {
-            PositionName paddlePosition = (PositionName)Utils.Rand._random.Next(Enum.GetValues(typeof(PositionName)).Length);
+            Constants.Side paddlePosition = (Constants.Side)Utils.Rand._random.Next(Enum.GetValues(typeof(Constants.Side)).Length);
             return GetNodePaddle(paddlePosition);
         }
 
-        public static Paddle GetNodePaddle(PositionName position = PositionName.BOTTOM)
+        public static Paddle GetNodePaddle(Constants.Side position = Constants.Side.BOTTOM)
         {
             switch (position)
             {
-                case PositionName.TOP:
+                case Constants.Side.TOP:
                     PaddleHorizontal paddleTop = new PaddleHorizontalFactory().GetInstance();
-                    paddleTop.Position = PositionVector.Top;
+                    paddleTop.Position = Constants.Paddle.PositionVector.Top;
                     return paddleTop;
 
-                case PositionName.LEFT:
+                case Constants.Side.LEFT:
                     PaddleVertical paddleLeft = new PaddleVerticalFactory().GetInstance();
-                    paddleLeft.Position = PositionVector.Left;
+                    paddleLeft.Position = Constants.Paddle.PositionVector.Left;
                     return paddleLeft;
 
-                case PositionName.RIGHT:
+                case Constants.Side.RIGHT:
                     PaddleVertical paddleRight = new PaddleVerticalFactory().GetInstance();
-                    paddleRight.Position = PositionVector.Right;
+                    paddleRight.Position = Constants.Paddle.PositionVector.Right;
                     return paddleRight;
 
                 default:
-                case PositionName.BOTTOM:
+                case Constants.Side.BOTTOM:
                     PaddleHorizontal paddleBottom = new PaddleHorizontalFactory().GetInstance();
-                    paddleBottom.Position = PositionVector.Bottom;
+                    paddleBottom.Position = Constants.Paddle.PositionVector.Bottom;
                     return paddleBottom;
             }
         }
