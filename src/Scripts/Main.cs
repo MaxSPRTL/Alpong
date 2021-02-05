@@ -31,7 +31,7 @@ namespace Scripts
 
         private void NewGame()
         {
-            this.AddPlayer(Constants.Side.BOTTOM);
+            this.AddPlayer(Constants.Side.RIGHT);
             this.AddBall();
             this.StartBalls();
         }
@@ -59,7 +59,7 @@ namespace Scripts
             if (player != null)
             {
                 _players.Add(player);
-                AddChild(player.Paddle);
+                CallDeferred("add_child", player.Paddle);
             }
         }
 
@@ -74,8 +74,8 @@ namespace Scripts
         private void AddBall()
         {
             Ball ball = new BallFactory().GetInstance();
+            CallDeferred("add_child", ball);
             _balls.Add(ball);
-            AddChild(ball);
         }
 
         private void StartBalls()
@@ -104,7 +104,7 @@ namespace Scripts
             if (player != null)
             {
                 player.NbLives -= 1;
-                this.DeleteBall(ball);
+                ball.Delete();
                 this.AddBall();
                 this.StartBalls();
             }
@@ -118,11 +118,6 @@ namespace Scripts
             }
 
             return null;
-        }
-
-        private void DeleteBall(Ball ball)
-        {
-            ball.QueueFree();
         }
     }
 }
