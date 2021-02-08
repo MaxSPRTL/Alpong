@@ -8,10 +8,25 @@ namespace Scripts.Entities
         public Vector2 Velocity = new Vector2();
         public bool IsStarted = false;
 
-        public void Start(Vector2 position, float direction)
+        public override void _EnterTree()
+        {
+            base._EnterTree();
+
+            AddToGroup(Constants.Group.Balls);
+        }
+
+        public override void _Ready()
+        {
+            base._Ready();
+
+            float ballDirection = Utils.Rand.RandRange(0, 360);
+            this.Start(ballDirection);
+        }
+
+
+        public void Start(float direction)
         {
             Rotation = direction;
-            Position = position;
             Velocity = new Vector2(_speed, 0).Rotated(Rotation);
             IsStarted = true;
         }

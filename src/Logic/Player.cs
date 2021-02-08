@@ -17,5 +17,10 @@ namespace Logic
             Side = side;
             NbLives = nbLives;
         }
+
+        public void Hit()
+        {
+            this.NbLives -= 1;
+        }
     }
 }

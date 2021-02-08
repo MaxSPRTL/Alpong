@@ -12,7 +12,6 @@ namespace Scripts
     {
 
         private List<Player> _players = new List<Player>();
-        private List<Ball> _balls = new List<Ball>();
 
         public override void _Ready()
         {
@@ -31,9 +30,8 @@ namespace Scripts
 
         private void NewGame()
         {
-            this.AddPlayer(Constants.Side.RIGHT);
+            this.AddPlayer(Constants.Side.BOTTOM);
             this.AddBall();
-            this.StartBalls();
         }
 
         private void AddPlayer(Constants.Side side)
@@ -74,20 +72,9 @@ namespace Scripts
         private void AddBall()
         {
             Ball ball = new BallFactory().GetInstance();
+            Vector2 viewportCenter = GetViewportRect().Size / 2;
+            ball.Position = viewportCenter;
             CallDeferred("add_child", ball);
-            _balls.Add(ball);
-        }
-
-        private void StartBalls()
-        {
-            foreach (Ball ball in _balls)
-            {
-                if (ball.IsStarted) continue;
-
-                float ballDirection = Utils.Rand.RandRange(0, 360);
-                Vector2 ballPosition = GetViewportRect().Size / 2;
-                ball.Start(ballPosition, ballDirection);
-            }
         }
 
         public void OnWallBodyEntered(Node body, Constants.Side side)
@@ -103,10 +90,9 @@ namespace Scripts
             Player player = this.FoundPlayerForSide(side);
             if (player != null)
             {
-                player.NbLives -= 1;
+                player.Hit();
                 ball.Delete();
                 this.AddBall();
-                this.StartBalls();
             }
         }
 

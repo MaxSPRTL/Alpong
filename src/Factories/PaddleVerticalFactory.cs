@@ -5,12 +5,11 @@ namespace Factories
 {
     public class PaddleVerticalFactory : Factory<PaddleVertical>
     {
-        public PaddleVerticalFactory() : base(Constants.Scene.Paddle) { }
+        public PaddleVerticalFactory() : base(Constants.Scene.Paddle, Constants.Script.PaddleVertical) { }
 
         public override PaddleVertical GetInstance()
         {
-            string scriptName = Constants.Script.PaddleVertical;
-            return (PaddleVertical)GD.InstanceFromId(base.AttachScript(scriptName));
+            return (PaddleVertical)GD.InstanceFromId(base.GetInstanceIdWithScript());
         }
     }
 }

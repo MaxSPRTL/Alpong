@@ -12,27 +12,27 @@
 a = Vector2( 24, -233 )
 b = Vector2( 24, 23 )
 
-[sub_resource type="SegmentShape2D" id=5]
+[sub_resource type="SegmentShape2D" id=2]
 a = Vector2( 96, -8 )
 b = Vector2( 96, 248 )
 
-[sub_resource type="SegmentShape2D" id=2]
+[sub_resource type="SegmentShape2D" id=3]
 a = Vector2( 328, -8 )
 b = Vector2( 328, 248 )
 
-[sub_resource type="SegmentShape2D" id=6]
+[sub_resource type="SegmentShape2D" id=4]
 a = Vector2( 336, -8 )
 b = Vector2( 336, 248 )
 
-[sub_resource type="SegmentShape2D" id=3]
+[sub_resource type="SegmentShape2D" id=5]
 a = Vector2( 88, 232 )
 b = Vector2( 344, 232 )
 
-[sub_resource type="SegmentShape2D" id=7]
+[sub_resource type="SegmentShape2D" id=6]
 a = Vector2( 88, 240 )
 b = Vector2( 344, 240 )
 
-[sub_resource type="SegmentShape2D" id=4]
+[sub_resource type="SegmentShape2D" id=7]
 a = Vector2( 88, 8 )
 b = Vector2( 344, 8 )
 
@@ -66,7 +66,7 @@ shape = SubResource( 1 )
 [node name="StaticBody2D" type="StaticBody2D" parent="WallLeft"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft/StaticBody2D"]
-shape = SubResource( 5 )
+shape = SubResource( 2 )
 
 [node name="WallRight" type="Area2D" parent="." groups=[
 "walls",
@@ -77,12 +77,12 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="WallRight"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight/StaticBody2D"]
-shape = SubResource( 6 )
+shape = SubResource( 4 )
 
 [node name="WallBottom" type="Area2D" parent="." groups=[
 "walls",
@@ -93,12 +93,12 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallBottom"]
-shape = SubResource( 3 )
+shape = SubResource( 5 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="WallBottom"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallBottom/StaticBody2D"]
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="WallTop" type="Area2D" parent="." groups=[
 "walls",
@@ -109,7 +109,7 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallTop"]
-shape = SubResource( 4 )
+shape = SubResource( 7 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="WallTop"]
 
