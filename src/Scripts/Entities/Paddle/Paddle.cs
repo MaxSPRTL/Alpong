@@ -20,5 +20,11 @@ namespace Scripts.Entities
         }
 
         public abstract Vector2 GetMovement();
+
+        public void Destroy()
+        {
+            GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
+            CallDeferred("free");
+        }
     }
 }

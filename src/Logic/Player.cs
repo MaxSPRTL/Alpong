@@ -1,26 +1,38 @@
 using Scripts.Entities;
 using Scripts.Blocks;
+using Services;
+using Godot;
 
 namespace Logic
 {
     public abstract class Player
     {
+        public Constants.Side Side;
         public Paddle Paddle;
         public Wall Wall;
-        public Constants.Side Side;
         public int NbLives;
+        public Label LivesLabel;
 
-        public Player(Paddle paddle, Wall wall, Constants.Side side, int nbLives)
+        public Player(Constants.Side side, Wall wall, Label livesLabel)
         {
-            Paddle = paddle;
-            Wall = wall;
-            Side = side;
-            NbLives = nbLives;
+            this.Side = side;
+            this.Paddle = PaddleService.GetNodePaddle(side);
+            this.Wall = wall;
+            this.NbLives = 10;
+            this.LivesLabel = livesLabel;
+            this.LivesLabel.Text = this.NbLives.ToString();
         }
 
         public void Hit()
         {
             this.NbLives -= 1;
+            this.LivesLabel.Text = this.NbLives.ToString();
+        }
+
+        public void Destroy()
+        {
+            this.Paddle.Destroy();
+            this.LivesLabel.CallDeferred("free");
         }
     }
 }

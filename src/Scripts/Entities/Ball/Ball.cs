@@ -4,7 +4,7 @@ namespace Scripts.Entities
 {
     public class Ball : KinematicBody2D
     {
-        private int _speed = 200;
+        private int _speed = 160;
         public Vector2 Velocity = new Vector2();
         public bool IsStarted = false;
 
@@ -52,7 +52,7 @@ namespace Scripts.Entities
             QueueFree();
         }
 
-        public void Delete()
+        public void Destroy()
         {
             GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
             CallDeferred("free");

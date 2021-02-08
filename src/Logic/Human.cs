@@ -1,10 +1,10 @@
-using Scripts.Entities;
+using Godot;
 using Scripts.Blocks;
 
 namespace Logic
 {
     public class Human : Player
     {
-        public Human(Paddle paddle, Wall wall, Constants.Side side, int nbLives) : base(paddle, wall, side, nbLives) { }
+        public Human(Constants.Side side, Wall wall, Label livesLabel) : base(side, wall, livesLabel) { }
     }
 }
