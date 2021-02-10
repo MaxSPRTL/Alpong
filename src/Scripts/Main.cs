@@ -15,23 +15,24 @@ namespace Scripts
         public override void _Ready()
         {
             base._Ready();
-            this.initSignals();
-            this.NewGame();
+
+            this.InitSignals();
         }
 
-        private void initSignals()
+        private void InitSignals()
         {
             GetNode(Constants.WallName.Left).Connect("BodyEntered", this, nameof(OnWallBodyEntered));
             GetNode(Constants.WallName.Right).Connect("BodyEntered", this, nameof(OnWallBodyEntered));
             GetNode(Constants.WallName.Top).Connect("BodyEntered", this, nameof(OnWallBodyEntered));
             GetNode(Constants.WallName.Bottom).Connect("BodyEntered", this, nameof(OnWallBodyEntered));
+
             GetNode<Timer>("BallSpawnTimer").Connect("timeout", this, nameof(OnBallSpawnTimerTimeout));
+            GetNode<HUD>("HUD").Connect("StartGame", this, nameof(NewGame));
         }
 
         private void NewGame()
         {
             this.AddPlayer(Constants.Side.BOTTOM);
-            this.AddBall();
             this.StartBallSpawner();
         }
 
@@ -49,19 +50,24 @@ namespace Scripts
             CallDeferred("add_child", player.LivesLabel);
         }
 
+        private void StartBallSpawner()
+        {
+            Timer ballSpawnTimer = GetNode<Timer>("BallSpawnTimer");
+            ballSpawnTimer.WaitTime = 1;
+            ballSpawnTimer.Start();
+        }
+
+        public void OnBallSpawnTimerTimeout()
+        {
+            this.AddBall();
+        }
+
         private void AddBall()
         {
             Ball ball = new BallFactory().GetInstance();
             Vector2 viewportCenter = GetViewportRect().Size / 2;
             ball.Position = viewportCenter;
             CallDeferred("add_child", ball);
-        }
-
-        private void StartBallSpawner()
-        {
-            Timer ballSpawnTimer = GetNode<Timer>("BallSpawnTimer");
-            ballSpawnTimer.WaitTime = 5;
-            ballSpawnTimer.Start();
         }
 
         public void OnWallBodyEntered(Node body, Constants.Side side)
@@ -72,13 +78,15 @@ namespace Scripts
             }
         }
 
-        public void HandleWallWhenBallEntered(Constants.Side side, Ball ball)
+        private void HandleWallWhenBallEntered(Constants.Side side, Ball ball)
         {
             Player player = this.FoundPlayerForSide(side);
             if (player != null)
             {
                 player.Hit();
                 ball.Destroy();
+                this.RemovePlayersWithoutLives();
+                this.HandleEndGame();
             }
         }
 
@@ -92,9 +100,40 @@ namespace Scripts
             return null;
         }
 
-        public void OnBallSpawnTimerTimeout()
+        private void RemovePlayersWithoutLives()
         {
-            this.AddBall();
+            for (int playerIndex = _players.Count - 1; playerIndex > -1; playerIndex--)
+            {
+                if (_players[playerIndex].NbLives <= 0)
+                {
+                    _players[playerIndex].Destroy();
+                    _players.RemoveAt(playerIndex);
+                }
+            }
+        }
+
+        private void HandleEndGame()
+        {
+            if (_players.Count == 0)
+                this.EndGame();
+        }
+
+        private void EndGame()
+        {
+            this.RemoveAllBalls();
+            this.StopBallSpawner();
+            GetNode<HUD>("HUD").ShowGameOver();
+        }
+
+        private void RemoveAllBalls()
+        {
+            GetTree().CallGroup(Constants.Group.Balls, "Destroy");
+        }
+
+        private void StopBallSpawner()
+        {
+            Timer ballSpawnTimer = GetNode<Timer>("BallSpawnTimer");
+            ballSpawnTimer.Stop();
         }
     }
 }
