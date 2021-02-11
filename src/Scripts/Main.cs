@@ -9,7 +9,7 @@ namespace Scripts
 {
     public class Main : Node2D
     {
-
+        private const float BallSpawnWaitTime = 5;
         private List<Player> _players = new List<Player>();
 
         public override void _Ready()
@@ -53,7 +53,7 @@ namespace Scripts
         private void StartBallSpawner()
         {
             Timer ballSpawnTimer = GetNode<Timer>("BallSpawnTimer");
-            ballSpawnTimer.WaitTime = 1;
+            ballSpawnTimer.WaitTime = BallSpawnWaitTime;
             ballSpawnTimer.Start();
         }
 
