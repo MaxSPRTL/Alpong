@@ -4,6 +4,9 @@ namespace Scripts.Entities
 {
     public class Ball : KinematicBody2D
     {
+        [Signal]
+        public delegate void BallHitPaddle();
+
         private int _initialSpeed = 100;
         private float _increaseSpeed = 0f;
         public Vector2 Velocity = new Vector2();
@@ -60,12 +63,14 @@ namespace Scripts.Entities
 
         public void HandleCollision(KinematicCollision2D collision)
         {
-            if (collision == null)
+            if (collision != null)
             {
-                return;
+                Velocity = Velocity.Bounce(collision.Normal);
+                if (collision.Collider is Paddle)
+                {
+                    EmitSignal("BallHitPaddle");
+                }
             }
-
-            Velocity = Velocity.Bounce(collision.Normal);
         }
 
         public void OnVisibilityNotifier2DScreenExited()

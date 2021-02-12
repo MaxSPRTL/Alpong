@@ -10,7 +10,7 @@ namespace Scripts
 {
     public class Main : Node2D
     {
-        private const float BallSpawnWaitTime = 5f;
+        private const float BallSpawnWaitTime = 3f;
         private List<Player> _players = new List<Player>();
 
         public override void _Ready()
@@ -37,6 +37,7 @@ namespace Scripts
             // this.AddPlayer(Constants.Side.TOP, new Computer());
             this.AddBall();
             this.StartBallSpawner();
+            GetNode<AudioStreamPlayer>("Music").Play();
         }
 
         private void AddPlayer(Constants.Side side, Player player)
@@ -65,6 +66,32 @@ namespace Scripts
             Vector2 viewportCenter = GetViewportRect().Size / 2;
             ball.Position = viewportCenter;
             CallDeferred("add_child", ball);
+            ball.Connect("BallHitPaddle", this, nameof(OnBallHittingPaddle));
+        }
+
+        public void OnBallHittingPaddle()
+        {
+            this.PlayRandomBallSound();
+        }
+
+        private void PlayRandomBallSound()
+        {
+            int rand = Utils.Rand.Random.Next(0, 3);
+
+            switch (rand)
+            {
+                case 0:
+                    GetNode<AudioStreamPlayer>("BallHitPaddle1").Play();
+                    break;
+                case 1:
+                    GetNode<AudioStreamPlayer>("BallHitPaddle2").Play();
+                    break;
+                case 2:
+                    GetNode<AudioStreamPlayer>("BallHitPaddle3").Play();
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void OnWallBodyEntered(Node body, Constants.Side side)
@@ -80,10 +107,23 @@ namespace Scripts
             Player player = this.FoundPlayerForSide(side);
             if (player != null)
             {
+                this.PlayRandomLoosingLifeSound();
                 player.Hit();
                 ball.Destroy();
                 this.RemovePlayersWithoutLives();
                 this.HandleEndGame();
+            }
+        }
+
+        private void PlayRandomLoosingLifeSound()
+        {
+            if (Utils.Rand.Random.Next(0, 2) == 0)
+            {
+                GetNode<AudioStreamPlayer>("LoosingLife1").Play();
+            }
+            else
+            {
+                GetNode<AudioStreamPlayer>("LoosingLife2").Play();
             }
         }
 
@@ -117,6 +157,7 @@ namespace Scripts
 
         private void EndGame()
         {
+            GetNode<AudioStreamPlayer>("Music").Stop();
             this.RemoveAllBalls();
             this.StopBallSpawner();
             GetNode<HUD>("HUD").ShowGameOver();
