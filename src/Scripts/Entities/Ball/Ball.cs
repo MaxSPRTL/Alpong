@@ -4,7 +4,8 @@ namespace Scripts.Entities
 {
     public class Ball : KinematicBody2D
     {
-        private int _speed = 160;
+        private int _initialSpeed = 100;
+        private float _increaseSpeed = 0f;
         public Vector2 Velocity = new Vector2();
         public bool IsStarted = false;
 
@@ -19,15 +20,35 @@ namespace Scripts.Entities
         {
             base._Ready();
 
+            this.InitSignals();
             float ballDirection = Utils.Rand.RandRange(0, 360);
             this.Start(ballDirection);
+            this.StartSpeedTimer();
+        }
+
+        public void InitSignals()
+        {
+            GetNode<Timer>("SpeedTimer").Connect("timeout", this, nameof(OnSpeedTimerTimeout));
+        }
+
+        public void OnSpeedTimerTimeout()
+        {
+            this._increaseSpeed += 0.10f;
+            Velocity += (Velocity * this._increaseSpeed);
+        }
+
+        private void StartSpeedTimer()
+        {
+            Timer speedTimer = GetNode<Timer>("SpeedTimer");
+            speedTimer.WaitTime = 8;
+            speedTimer.Start();
         }
 
 
         public void Start(float direction)
         {
             Rotation = direction;
-            Velocity = new Vector2(_speed, 0).Rotated(Rotation);
+            Velocity = new Vector2(_initialSpeed, 0).Rotated(Rotation);
             IsStarted = true;
         }
 

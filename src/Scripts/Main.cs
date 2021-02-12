@@ -4,12 +4,13 @@ using Scripts.Entities;
 using Scripts.Blocks;
 using System.Collections.Generic;
 using Logic;
+using Services;
 
 namespace Scripts
 {
     public class Main : Node2D
     {
-        private const float BallSpawnWaitTime = 5;
+        private const float BallSpawnWaitTime = 5f;
         private List<Player> _players = new List<Player>();
 
         public override void _Ready()
@@ -32,22 +33,18 @@ namespace Scripts
 
         private void NewGame()
         {
-            this.AddPlayer(Constants.Side.BOTTOM);
+            this.AddPlayer(Constants.Side.BOTTOM, new Human());
+            // this.AddPlayer(Constants.Side.TOP, new Computer());
+            this.AddBall();
             this.StartBallSpawner();
         }
 
-        private void AddPlayer(Constants.Side side)
+        private void AddPlayer(Constants.Side side, Player player)
         {
-            string wallName = Services.WallsService.GetWallNameBySide(side);
-            Wall wall = (Wall)GetNode(wallName);
-
-            Label livesLabel = Services.LabelsService.GetLivesLabelNode(side);
-
-            Player player = new Human(side, wall, livesLabel);
-
+            Wall wall = (Wall)GetNode(WallsService.GetWallNameBySide(side));
+            player.Init(side, wall);
+            CallDeferred("add_child", player);
             _players.Add(player);
-            CallDeferred("add_child", player.Paddle);
-            CallDeferred("add_child", player.LivesLabel);
         }
 
         private void StartBallSpawner()

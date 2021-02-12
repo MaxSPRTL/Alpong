@@ -13,13 +13,9 @@ namespace Scripts.Entities
             RotationDegrees += _rotation;
         }
 
-        public override void _PhysicsProcess(float delta)
-        {
-            Vector2 movement = this.GetMovement();
-            MoveAndCollide(movement * delta);
+        public void Move(Vector2 movementVector, float delta) {
+            MoveAndCollide(movementVector.Normalized() * delta * _speed);
         }
-
-        public abstract Vector2 GetMovement();
 
         public void Destroy()
         {
